@@ -50,6 +50,8 @@ jobs:
       run: |
         pip install setuptools twine
     - name: Build package
+      env:
+        VERSION: ${{ github.event.release.tag_name }}
       run: |
         printenv
         echo "---"
