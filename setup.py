@@ -1,5 +1,6 @@
 import re
 import os
+import subprocess
 import sdist_upip
 from setuptools import setup
 
@@ -11,8 +12,17 @@ def long_desc_from_readme():
         return long_description
 
 
+def get_git_version():
+    version = subprocess.check_output(['git', 'describe', '--always', '--tags', '--dirty'])
+    version = str(version, 'utf-8').strip()
+    return version
+
+
 def get_version():
-    return os.environ.get('VERSION', None)
+    version = os.environ.get('VERSION', None)
+    if not version:
+       version = get_git_version()
+    return version
 
 
 setup(

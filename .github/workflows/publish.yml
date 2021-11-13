@@ -50,8 +50,6 @@ jobs:
       run: |
         pip install setuptools twine
     - name: Build package
-      env:
-        VERSION: ${{ github.event.release.tag_name }}
       run: |
         printenv
         echo "---"
@@ -59,7 +57,7 @@ jobs:
         echo "---"
         cat $GITHUB_EVENT_PATH
         echo "---"
-        python setup.py sdist  # uses $VERSION for version number
+        python setup.py sdist
         echo "---"
         twine check dist/*.tar.gz
     - name: Publish
