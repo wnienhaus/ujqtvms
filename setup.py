@@ -31,4 +31,5 @@ setup(
     platforms=["esp32", "linux", "darwin"],
     cmdclass={"sdist": sdist_upip.sdist},
     packages=["ujqtvms"],
+    extras_require={"test": ["pytest"]}
 )
