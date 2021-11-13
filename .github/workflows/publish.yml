@@ -12,6 +12,7 @@ jobs:
       matrix:
         python-version: [3.5]
     steps:
+    - uses: actions/checkout@v2
     - uses: ./.github/actions/test
       with:
         python-version: ${{ matrix.python-version }}
