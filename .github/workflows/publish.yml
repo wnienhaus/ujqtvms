@@ -2,7 +2,7 @@ name: Publish Python Package
 
 on:
   release:
-    types: [created, published]
+    types: [published]
   workflow_dispatch:
 
 jobs:
@@ -52,7 +52,7 @@ jobs:
     - name: Publish
       env:
         TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_TOKEN }}
       run: |
         printenv
         echo "---"
