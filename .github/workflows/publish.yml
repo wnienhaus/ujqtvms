@@ -1,10 +1,8 @@
 name: Publish Python Package
 
 on:
-  push:
-    branches: [master]
   release:
-    types: [created]
+    types: [created, published]
   workflow_dispatch:
 
 jobs:
@@ -57,6 +55,16 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
       run: |
         printenv
+        echo "---"
+        cat $GITHUB_EVENT_PATH
+        echo "---"
         python setup.py sdist
+        echo "---"
         twine check dist/*.tar.gz
         ## twine upload dist/*.tar.gz  # dont publish yet...
+    - name: 'Keep Artifact'
+      uses: actions/upload-artifact@v2
+      with:
+        name: pip-package
+        path: dist/ujqtvms-1.0.0.tar.gz  # FIXME: hardcoded version no
+        retention-days: 5
