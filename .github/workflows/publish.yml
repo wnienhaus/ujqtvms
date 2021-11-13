@@ -68,7 +68,7 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.TEST_PYPI_TOKEN }}
       if: github.event.release.tag_name
       run: |
-        echo twine upload --repository testpypi dist/*.tar.gz
+        twine upload --repository testpypi dist/*.tar.gz
     - name: 'Keep Artifact'
       uses: actions/upload-artifact@v2
       with:
