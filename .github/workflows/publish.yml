@@ -12,25 +12,10 @@ jobs:
       matrix:
         python-version: [3.5]
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+    - uses: ./.github/actions/test
       with:
         python-version: ${{ matrix.python-version }}
-    - uses: actions/cache@v2
-      name: Configure pip caching
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.py') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-    - name: Install dependencies
-      run: |
-        pip install -e '.[test]'
-    - name: Run tests
-      run: |
-        pytest
-  deploy:
+  publish:
     runs-on: ubuntu-latest
     needs: [test]
     steps:
