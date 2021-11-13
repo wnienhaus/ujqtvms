@@ -36,7 +36,7 @@ jobs:
           ${{ runner.os }}-publish-pip-
     - name: Install dependencies
       run: |
-        pip install setuptools twine
+        pip install setuptools
     - name: Build package
       env:
         VERSION: ${{ github.event.release.tag_name }}
@@ -48,15 +48,19 @@ jobs:
         cat $GITHUB_EVENT_PATH
         echo "---"
         python setup.py sdist
-        echo "---"
-        twine check dist/*.tar.gz
-    - name: Publish
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_TOKEN }}
+        rm dist/*.orig  #clean sdist_upip noise
+    - name: Publish to Test PyPI
+      uses: pypa/gh-action-pypi-publish@master
+      #if: github.event.release.tag_name
+      with:
+        password: ${{ secrets.TEST_PYPI_TOKEN }}
+        repository_url: https://test.pypi.org/legacy/
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@master
       if: github.event.release.tag_name
-      run: |
-        twine upload --repository testpypi dist/*.tar.gz
+      with:
+        password: ${{ secrets.TEST_PYPI_TOKEN }}
+        repository_url: https://test.pypi.org/legacy/  # still using testpypi here until we're ready
     - name: 'Keep Artifact'
       uses: actions/upload-artifact@v2
       with:
