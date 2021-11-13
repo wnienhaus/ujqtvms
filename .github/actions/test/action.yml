@@ -21,8 +21,10 @@ runs:
       restore-keys: |
         ${{ runner.os }}-pip-
   - name: Install dependencies
+    shell: bash
     run: |
       pip install -e '.[test]'
   - name: Run tests
+    shell: bash
     run: |
       pytest
