@@ -53,18 +53,21 @@ jobs:
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.TEST_PYPI_TOKEN }}
+        VERSION: ${{ github.event.release.tag_name }}
       run: |
         printenv
+        echo "---"
+        echo "Release version: ${{github.event.release.tag_name}} | $VERSION"
         echo "---"
         cat $GITHUB_EVENT_PATH
         echo "---"
         python setup.py sdist
         echo "---"
         twine check dist/*.tar.gz
-        ## twine upload dist/*.tar.gz  # dont publish yet...
+        #twine upload --repository testpypi dist/*.tar.gz
     - name: 'Keep Artifact'
       uses: actions/upload-artifact@v2
       with:
         name: pip-package
-        path: dist/ujqtvms-1.0.0.tar.gz  # FIXME: hardcoded version no
+        path: dist/*.tar.gz
         retention-days: 5

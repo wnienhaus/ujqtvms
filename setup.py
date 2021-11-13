@@ -1,8 +1,9 @@
 import re
+import os
 import sdist_upip
 from setuptools import setup
 
-VERSION = "1.0.0"
+VERSION = os.environ.get('VERSION', None)
 
 
 def long_desc_from_readme():
