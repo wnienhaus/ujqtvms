@@ -35,10 +35,8 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-publish-pip-
     - name: Build package
-      env:
-        VERSION: ${{ github.event.release.tag_name }}
       run: |
-        pip install setuptools
+        pip install setuptools setuptools_scm
         python setup.py sdist
         rm dist/*.orig  #clean sdist_upip noise
     - name: Publish to Test PyPI

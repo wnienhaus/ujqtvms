@@ -1,6 +1,3 @@
-import re
-import os
-import subprocess
 import sdist_upip
 from setuptools import setup
 
@@ -12,22 +9,11 @@ def long_desc_from_readme():
         return long_description
 
 
-def get_git_version():
-    version = subprocess.check_output(['git', 'describe', '--always', '--tags', '--dirty'])
-    version = str(version, 'utf-8').strip()
-    return version
-
-
-def get_version():
-    version = os.environ.get('VERSION', None)
-    if not version:
-       version = get_git_version()
-    return version
-
-
 setup(
     name="ujqtvms",
-    version=get_version(),
+    use_scm_version={
+        'local_scheme': 'no-local-version',
+    },
     description="Testing automated pypi publishing vi Github releases",
     long_description=long_desc_from_readme(),
     long_description_content_type='text/markdown',
@@ -44,5 +30,6 @@ setup(
     platforms=["esp32", "linux", "darwin"],
     cmdclass={"sdist": sdist_upip.sdist},
     packages=["ujqtvms"],
+    setup_requires=['setuptools_scm'],
     extras_require={"test": ["pytest"]}
 )
