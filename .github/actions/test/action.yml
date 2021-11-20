@@ -22,6 +22,7 @@ runs:
   - name: Install dependencies
     shell: bash
     run: |
+      pip install setuptools_scm
       pip install -e '.[test]'
   - name: Run tests
     shell: bash
